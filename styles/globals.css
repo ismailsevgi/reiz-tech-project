@@ -1,3 +1,51 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* CSS RESET */
+:root {
+  --reizGreen: #00ff00;
+}
+
+@font-face {
+  font-family: Aboreto;
+  src: url('../public/font/Aboreto-Regular.ttf');
+}
+
+.animate-\[toDark_1s_ease_1\],
+.animate-\[toLight_1s_ease_1\] {
+  animation-fill-mode: forwards !important;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+img,
+picture,
+svg,
+video {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+input {
+  font-family: Aboreto;
+  font-weight: 600;
+}
+
+body {
+  min-height: 100vh;
+}

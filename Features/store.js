@@ -1,8 +1,10 @@
 const { configureStore } = require('@reduxjs/toolkit');
-import filterReducer from './filterSlice';
+import themeReducer from './themeSlice';
+import countriesReducer from './countriesSlice';
 const store = configureStore({
   reducer: {
-    filter: filterReducer,
+    countries: countriesReducer,
+    theme: themeReducer,
   },
 });
 
