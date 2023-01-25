@@ -1,49 +1,44 @@
-import {
-  ASC,
-  DESC,
-  ALL,
-  ASIA,
-  EUROPE,
-  AMERICAS,
-  AFRICA,
-  OCEANIA,
-} from './constants';
+import { ALL, ASIA, EUROPE, AMERICAS, AFRICA, OCEANIA } from './constants';
 
 export function changeSorting(
   sortValue: string,
   dispatch: Function,
   action: Function
 ) {
-  if (sortValue === ASC) {
-    dispatch(action(ASC));
-  } else {
-    dispatch(action(DESC));
-  }
+  dispatch(action(sortValue));
 }
 
 export function changeRegion(
   sortValue: string,
   dispatch: Function,
-  action: Function
+  regionAction: Function,
+  sortingAction: Function,
+  currentSorting: string
 ) {
   switch (sortValue) {
     case ALL:
-      dispatch(action(ALL));
+      dispatch(regionAction(ALL));
+      dispatch(sortingAction(currentSorting));
       break;
     case ASIA:
-      dispatch(action(ASIA));
+      dispatch(regionAction(ASIA));
+      dispatch(sortingAction(currentSorting));
       break;
     case EUROPE:
-      dispatch(action(EUROPE));
+      dispatch(regionAction(EUROPE));
+      dispatch(sortingAction(currentSorting));
       break;
     case AMERICAS:
-      dispatch(action(AMERICAS));
+      dispatch(regionAction(AMERICAS));
+      dispatch(sortingAction(currentSorting));
       break;
     case AFRICA:
-      dispatch(action(AFRICA));
+      dispatch(regionAction(AFRICA));
+      dispatch(sortingAction(currentSorting));
       break;
     case OCEANIA:
-      dispatch(action(OCEANIA));
+      dispatch(regionAction(OCEANIA));
+      dispatch(sortingAction(currentSorting));
       break;
   }
   //   if (sortValue === ALL) {

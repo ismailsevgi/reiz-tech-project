@@ -36,7 +36,9 @@ export interface COUNTRIES_STATE {
   region: string;
   secondFilter: string;
   sorting: string;
-  area: string;
+  lithuaniaMode: Boolean;
+  compare_area: 'BIGGER' | 'SMALLER';
+  searchQuery: string;
   countries: ARRAY_OF_COUNTRIES;
   filteredCountries: ARRAY_OF_COUNTRIES;
 }

@@ -1,6 +1,6 @@
 import { CHANGE_THEME } from '@/Features/themeSlice';
 import Image from 'next/image';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 type Props = {};
@@ -13,6 +13,16 @@ function Navbar({}: Props) {
   };
   const theme = useSelector((state: store) => state?.theme);
   console.log('Theme: ', theme);
+
+  useEffect(() => {
+    const theme = localStorage.getItem('theme');
+    if (theme === 'light') {
+      dispatch(CHANGE_THEME('light'));
+    }
+    if (theme === 'dark') {
+      dispatch(CHANGE_THEME('dark'));
+    }
+  }, []);
 
   function changeTheme() {
     if (theme === 'light') {

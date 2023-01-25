@@ -19,16 +19,31 @@ function CountriesList() {
 
   //If current region is other than 'All' then pull the filteredArray otherwise use pure countries.
   const countries = useSelector(
-    (state: STORE_STATE) =>
-      state?.countries?.[region === 'All' ? 'countries' : 'filteredCountries']!
+    (state: STORE_STATE) => state?.countries?.filteredCountries
   );
+
+  console.log('Selected Countries: ', countries);
+
+  const allContries = useSelector(
+    (state: STORE_STATE) => state?.countries?.countries!
+  );
+
+  const lithuaniaElement = allContries.find(
+    (country) => country.name === 'Lithuania'
+  );
+
   type store = {
     theme: 'light' | 'dark';
   };
   const theme = useSelector((state: store) => state?.theme);
-  console.log('Theme: ', theme);
 
-  console.log('Listeye ülkere geldi!', countries.slice(0, 10));
+  const lithuaniaMode = useSelector(
+    (state: STORE_STATE) => state.countries.lithuaniaMode
+  );
+
+  //lithuania will be find and store here,
+  //eğer redux'da mode açıksa en yukarıya render edilecek.
+  //mode açıksa filterdan kalan
 
   return (
     <div
@@ -39,6 +54,42 @@ function CountriesList() {
       } `}
     >
       <div className='w-full lg:w-2/3 px-6 lg:mx-auto lg:px-0 flex flex-col gap-5'>
+        {lithuaniaElement && lithuaniaMode && (
+          <div
+            key={lithuaniaElement.alpha2Code}
+            className={styles.Country}
+            style={{
+              backgroundImage: `url(${lithuaniaElement.flag})`,
+              height: '250px',
+              backgroundSize: 'cover',
+              backgroundRepeat: 'no-repeat',
+              backgroundPosition: 'center',
+            }}
+          >
+            <div className={styles.FlagBackground}></div>
+
+            <div className={styles.CountrySpecs}>
+              <h1 className='text-2xl md:text-4xl tracking-wider'>
+                {lithuaniaElement.name}
+              </h1>
+              <p className='tracking-wider text-xl'>
+                Capital : {lithuaniaElement.capital}
+              </p>
+              <p className='tracking-wider text-xl'>
+                Region : {lithuaniaElement.region}
+              </p>
+              <p className='tracking-wider text-xl'>
+                AREA : {new Intl.NumberFormat().format(lithuaniaElement.area)}{' '}
+                km
+                <sup className='tracking-wider '>2</sup>
+              </p>
+              <p className='tracking-wider text-xl'>
+                Region :{' '}
+                {new Intl.NumberFormat().format(lithuaniaElement.population)}
+              </p>
+            </div>
+          </div>
+        )}
         {countries.slice(0, 35).map((country) => {
           return (
             <div
@@ -46,7 +97,6 @@ function CountriesList() {
               className={styles.Country}
               style={{
                 backgroundImage: `url(${country.flag})`,
-
                 height: '250px',
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',

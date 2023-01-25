@@ -1,9 +1,6 @@
 const { createSlice } = require('@reduxjs/toolkit');
 
-const initialState =
-  typeof window !== 'undefined'
-    ? localStorage.getItem('theme') || 'light'
-    : 'light';
+const initialState = 'dark';
 
 const themeSlice = createSlice({
   name: 'theme',
