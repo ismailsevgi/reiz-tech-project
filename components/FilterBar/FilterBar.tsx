@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { COUNTRY_OBJECT, REDUX_STORE_STATE } from '@/utils/InterfacesAndTypes';
 import { withRouter } from 'next/router';
+
 import {
   SET_SORTING,
   SET_REGION,
@@ -18,27 +19,15 @@ import {
   SMALLER,
   ALL,
 } from '@/utils/constants';
+import useDeclaredHooks from '../DeclaredHooks/useDeclaredHooks';
 
 type Props = {
   router: any;
 };
 
 function FilterBar({ router }: Props) {
-  const dispatch = useDispatch();
-
-  const sorting = useSelector(
-    (state: REDUX_STORE_STATE) => state.countries.sorting
-  );
-  const region = useSelector(
-    (state: REDUX_STORE_STATE) => state.countries.region
-  );
-  const theme = useSelector((state: REDUX_STORE_STATE) => state?.theme);
-  const compare_area = useSelector(
-    (state: REDUX_STORE_STATE) => state.countries.compare_area
-  );
-  const lithuaniaMode = useSelector(
-    (state: REDUX_STORE_STATE) => state.countries.lithuaniaMode
-  );
+  const { dispatch, theme, sorting, region, compare_area, lithuaniaMode } =
+    useDeclaredHooks();
 
   const [searchQuery, setSearchQuery] = useState('');
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
@@ -60,15 +49,15 @@ function FilterBar({ router }: Props) {
 
   return (
     <div
-      className={`w-full min-h-max py-6  ${
+      className={`min-h-max py-6  ${
         theme === 'dark'
           ? 'animate-[toDark_1s_ease_1] '
           : 'animate-[toLight_1s_ease_1]'
       }`}
     >
-      <div className='w-full lg:w-2/3 mx-auto  border-green-500 px-6 lg:px-0 h-full flex justify-between items-center flex-wrap'>
-        <div className='flex flex-wrap gap-4'>
-          <div className='flex gap-2 w-min rounded-md my-4'>
+      <div className='lg:w-2/3 mx-auto  border-green-500 px-6 lg:px-0 h-full flex justify-between items-center flex-wrap gap-4'>
+        <div className='flex flex-wrap justify-start items-center gap-4'>
+          <div className='flex gap-2 w-min rounded-md'>
             <label
               className={`block ${
                 theme === 'dark'
@@ -113,7 +102,7 @@ function FilterBar({ router }: Props) {
               </option>
             </select>
           </div>
-          <div className='flex gap-2 w-min rounded-md items-center my-4'>
+          <div className='flex gap-2 w-min rounded-md items-center '>
             <label className={`block ${theme === 'dark' && 'text-white'}`}>
               REGION
             </label>
@@ -171,7 +160,7 @@ function FilterBar({ router }: Props) {
           </div>
         </div>
 
-        <div className='flex gap-4 my-4'>
+        <div className='flex gap-4 '>
           <div
             className={
               lithuaniaMode

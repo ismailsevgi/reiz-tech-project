@@ -1,17 +1,16 @@
 import { CHANGE_THEME } from '@/Features/themeSlice';
 import Image from 'next/image';
 import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 
-type Props = {};
+import useDeclaredHooks from '../DeclaredHooks/useDeclaredHooks';
 
-function Navbar({}: Props) {
-  const dispatch = useDispatch();
-
+function Navbar() {
+  // const dispatch = useDispatch();
+  const { dispatch, theme } = useDeclaredHooks();
   type store = {
     theme: 'light' | 'dark';
   };
-  const theme = useSelector((state: store) => state?.theme);
+  // const theme = useSelector((state: store) => state?.theme);
   console.log('Theme: ', theme);
 
   useEffect(() => {
@@ -35,23 +34,28 @@ function Navbar({}: Props) {
 
   return (
     <div
-      className={`wrapper border-b-2 h-24 ${
+      className={`border-b-2 h-24 px-4 ${
         theme === 'dark'
           ? 'animate-[toDark_1s_ease_1] border-b-2 border-b-green-500'
           : 'animate-[toLight_1s_ease_1]'
       }`}
     >
       <div className=' w-full lg:w-2/3 mx-auto flex justify-between h-full'>
-        <div className=''>
+        <div className='grid place-content-center'>
           <Image
-            src='/logo/reiz_tech_new.gif'
+            src={
+              theme === 'dark'
+                ? '/logo/reiz_white.gif'
+                : '/logo/reiz_tech_black.gif'
+            }
             alt='Reiz_tech_logo'
             height={'100'}
             width={'200'}
+            className='shrink-0'
           />
         </div>
         <div className='h-full w-max grid place-content-center'>
-          <h1 className='text-2xl'>HOMEWORK ASSIGNMENT</h1>
+          <h1 className=' sm:text-2xl'>HOMEWORK ASSIGNMENT</h1>
         </div>
         <div className='h-full grid place-content-center'>
           <button

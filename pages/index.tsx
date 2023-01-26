@@ -3,37 +3,30 @@ import Navbar from '@/components/Navbar/Navbar';
 import axios from 'axios';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import { COUNTRY_OBJECT, ARRAY_OF_COUNTRIES } from '@/utils/InterfacesAndTypes';
+import { ARRAY_OF_COUNTRIES } from '@/utils/InterfacesAndTypes';
 import CountriesList from '@/components/Countries/CountriesList';
 import { SET_COUNTRIES } from '@/Features/countriesSlice';
-import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import Pagination from '@/components/Pagination/Pagination';
-import { useRouter } from 'next/router';
+import useDeclaredHooks from '@/components/DeclaredHooks/useDeclaredHooks';
+import Footer from '@/components/Footer/Footer';
 
-interface Props {
+interface homeProps {
   data: ARRAY_OF_COUNTRIES;
 }
 
-const Home: React.FC<Props> = ({ data }: Props) => {
-  const dispatch = useDispatch();
+const Home: React.FC<homeProps> = ({ data }: homeProps) => {
+  const { dispatch, router } = useDeclaredHooks();
   useEffect(() => {
     dispatch(SET_COUNTRIES(data));
   }, []);
 
-  const router = useRouter();
-
   useEffect(() => {
-    //if there is query alread
-
-    const page = router.query.page;
+    //if there is no page query push user into page=1
 
     if (router.query.page && router.query.page !== '1') {
       router.push(`?page=${router.query.page}`, undefined, { shallow: true });
     }
-    // if (!router.query.page) {
-    //   router.redirect(`?page=1`, undefined, { shallow: true });
-    // }
   }, [router.query.page]);
 
   return (
@@ -61,12 +54,13 @@ const Home: React.FC<Props> = ({ data }: Props) => {
         {/* PAGINATION */}
         <Pagination />
         {/* FOOTER */}
+        <Footer />
       </main>
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getStaticProps: GetStaticProps = async () => {
   const countries = await axios.get('https://restcountries.com/v2/all');
 
   //To prevent stale data, revalidation timer setted: One week

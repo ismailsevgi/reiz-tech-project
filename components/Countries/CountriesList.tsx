@@ -3,10 +3,11 @@ import { COUNTRY_OBJECT, REDUX_STORE_STATE } from '@/utils/InterfacesAndTypes';
 import styles from './Countries.module.scss';
 import { useSelector } from 'react-redux';
 import { withRouter } from 'next/router';
+import useDeclaredHooks from '../DeclaredHooks/useDeclaredHooks';
 
 function CountriesList({ router }: { router: any }) {
   const [pageState, setPageState] = useState([0, 10]);
-
+  const { theme, lithuaniaMode, countries, allCountries } = useDeclaredHooks();
   function getDynamicSlice(pageValue: any) {
     //scrolling to absolute top
     window.scrollTo({
@@ -29,33 +30,10 @@ function CountriesList({ router }: { router: any }) {
     console.log('useEffect: ', router.query.page);
     setPageState(getDynamicSlice(router.query.page));
   }, [router.query.page]);
-  //pull current region to decide which array should be.
-  const region = useSelector(
-    (state: REDUX_STORE_STATE) => state?.countries?.region!
-  );
 
-  //If current region is other than 'All' then pull the filteredArray otherwise use pure countries.
-  const countries = useSelector(
-    (state: REDUX_STORE_STATE) => state?.countries?.filteredCountries
-  );
-
-  const allContries = useSelector(
-    (state: REDUX_STORE_STATE) => state?.countries?.countries!
-  );
-
-  const lithuaniaElement = allContries.find(
+  const lithuaniaElement = allCountries.find(
     (country: COUNTRY_OBJECT) => country.name === 'Lithuania'
   );
-
-  const theme = useSelector((state: REDUX_STORE_STATE) => state?.theme);
-
-  const lithuaniaMode = useSelector(
-    (state: REDUX_STORE_STATE) => state.countries.lithuaniaMode
-  );
-
-  //lithuania will be find and store here,
-  //eğer redux'da mode açıksa en yukarıya render edilecek.
-  //mode açıksa filterdan kalan
 
   return (
     <div
