@@ -16,21 +16,21 @@ module.exports = {
         toDark: {
           from: {
             color: 'black',
-            backgroundColor: 'white',
+            backgroundColor: '#e5e7eb',
           },
           to: {
-            color: 'white',
-            backgroundColor: '#312e81',
+            color: '#e5e7eb',
+            backgroundColor: '#1c1917',
           },
         },
         toLight: {
           from: {
-            color: 'white',
-            backgroundColor: '#312e81',
+            color: '#e5e7eb',
+            backgroundColor: '#1c1917',
           },
           to: {
             color: 'black',
-            backgroundColor: 'white',
+            backgroundColor: '#e5e7eb',
           },
         },
       },

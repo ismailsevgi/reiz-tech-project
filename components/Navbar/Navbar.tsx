@@ -38,7 +38,7 @@ function Navbar() {
       className={`border-b-2 h-24 px-4 ${
         theme === 'dark'
           ? 'animate-[toDark_1s_ease_1] border-b-2 border-b-green-500'
-          : 'animate-[toLight_1s_ease_1]'
+          : 'animate-[toLight_1s_ease_1] border-b-2 border-b-stone-500'
       }`}
     >
       <div className=' w-full lg:w-2/3 mx-auto flex justify-between h-full'>

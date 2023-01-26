@@ -49,6 +49,7 @@ const Home: React.FC<homeProps> = ({ data }: homeProps) => {
         <Navbar />
         {/* FILTER-BAR */}
         <FilterBar />
+
         {/* LIST */}
         <CountriesList />
         {/* PAGINATION */}

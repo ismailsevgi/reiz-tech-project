@@ -26,7 +26,7 @@ function Pagination({}: Props) {
   return (
     <div
       id='pagination-wrapper'
-      className={`h-24 w-full px-8 ${
+      className={` w-full px-8 ${
         theme === 'dark'
           ? 'animate-[toDark_1s_ease_1] '
           : 'animate-[toLight_1s_ease_1]'
@@ -37,7 +37,7 @@ function Pagination({}: Props) {
         className='lg:w-1/3 mx-4 h-14 lg:mx-auto grid grid-cols-2 gap-4'
       >
         <div
-          className={`h-full border-2 text-left pl-2 grid place-content-center cursor-pointer hover:bg-green-400 ease duration-300 ${
+          className={`h-full border-2 text-left pl-2 grid place-content-center cursor-pointer hover:bg-green-600 ease duration-300 ${
             theme === 'light' && 'bg-slate-200'
           }`}
           onClick={() => changePage('prev')}
@@ -49,7 +49,7 @@ function Pagination({}: Props) {
         </div>
 
         <div
-          className={`h-full border-2  text-right pr-2 grid place-content-center cursor-pointer hover:bg-green-400 ease duration-300 ${
+          className={`h-full border-2  text-right pr-2 grid place-content-center cursor-pointer hover:bg-green-600 ease duration-300 ${
             theme === 'light' && 'bg-slate-200'
           }`}
           onClick={() => changePage('next')}

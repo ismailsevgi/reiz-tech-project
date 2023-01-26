@@ -5,6 +5,7 @@
 /* CSS RESET */
 :root {
   --reizGreen: #00ff00;
+  --testBlue: blue;
 }
 
 @font-face {

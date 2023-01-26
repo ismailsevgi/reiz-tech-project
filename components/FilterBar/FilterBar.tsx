@@ -68,7 +68,7 @@ function FilterBar({ router }: Props) {
               LISTING ORDER
             </label>
             <select
-              className='appearance-none bg-green-500 text-white rounded-md h-12 p-2 hover:bg-green-400 cursor-pointer focus:outline-none'
+              className='appearance-none bg-green-600 text-white rounded-md h-12 p-2 hover:bg-green-500 cursor-pointer focus:outline-none'
               value={sorting}
               disabled={lithuaniaMode ? true : false}
               onChange={(e) => {
@@ -107,7 +107,7 @@ function FilterBar({ router }: Props) {
               REGION
             </label>
             <select
-              className='appearance-none bg-green-500 text-white rounded-md h-12 p-2 hover:bg-green-400 cursor-pointer focus:outline-none text-center'
+              className='appearance-none bg-green-600 text-white rounded-md h-12 p-2 hover:bg-green-500 cursor-pointer focus:outline-none text-center'
               value={region}
               disabled={lithuaniaMode ? true : false}
               onChange={(e) =>
@@ -164,7 +164,7 @@ function FilterBar({ router }: Props) {
           <div
             className={
               lithuaniaMode
-                ? 'h-12 w-20 border-4 border-green-500'
+                ? 'h-12 w-20 border-4 border-green-600'
                 : 'h-12 w-20'
             }
             onClick={() => {
@@ -195,7 +195,7 @@ function FilterBar({ router }: Props) {
               <span className='hidden sm:block'>AREA SIZE</span>
             </label>
             <select
-              className='appearance-none bg-green-500 text-white rounded-md h-12 p-2 hover:bg-green-400 cursor-pointer focus:outline-none'
+              className='appearance-none bg-green-600 text-white rounded-md h-12 p-2 hover:bg-green-500 cursor-pointer focus:outline-none'
               value={compare_area}
               disabled={!lithuaniaMode ? true : false}
               onChange={(e) =>
