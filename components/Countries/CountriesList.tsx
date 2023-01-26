@@ -86,7 +86,6 @@ function CountriesList({ router }: { router: any }) {
               className={styles.Country}
               style={{
                 backgroundImage: `url(${country.flag})`,
-
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
@@ -109,7 +108,8 @@ function CountriesList({ router }: { router: any }) {
                   <sup className='tracking-wider '>2</sup>
                 </p>
                 <p className='tracking-wider text-xl'>
-                  Region : {new Intl.NumberFormat().format(country.population)}
+                  Population :{' '}
+                  {new Intl.NumberFormat().format(country.population)}
                 </p>
               </div>
             </div>
