@@ -192,7 +192,7 @@ function FilterBar({ router }: Props) {
                   : 'animate-[toLight_1s_ease_1]'
               }`}
             >
-              AREA SIZE
+              <span className='hidden sm:block'>AREA SIZE</span>
             </label>
             <select
               className='appearance-none bg-green-500 text-white rounded-md h-12 p-2 hover:bg-green-400 cursor-pointer focus:outline-none'
