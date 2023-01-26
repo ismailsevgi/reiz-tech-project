@@ -78,7 +78,7 @@ function CountriesList({ router }: { router: any }) {
           </div>
         </div>
       )}
-      <div className='w-full lg:w-2/3 min-h-screen px-6 py-12 lg:mx-auto lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-4'>
+      <div className='lg:w-2/3 min-h-screen px-6 py-12 lg:mx-auto lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-4'>
         {countries.slice(...pageState).map((country: COUNTRY_OBJECT) => {
           return (
             <div
@@ -86,7 +86,7 @@ function CountriesList({ router }: { router: any }) {
               className={styles.Country}
               style={{
                 backgroundImage: `url(${country.flag})`,
-                height: '250px',
+
                 backgroundSize: 'cover',
                 backgroundRepeat: 'no-repeat',
                 backgroundPosition: 'center',
