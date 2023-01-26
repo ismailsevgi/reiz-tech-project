@@ -1,5 +1,6 @@
 import { CHANGE_THEME } from '@/Features/themeSlice';
 import Image from 'next/image';
+import Link from 'next/link';
 import React, { useEffect } from 'react';
 
 import useDeclaredHooks from '../DeclaredHooks/useDeclaredHooks';
@@ -42,17 +43,19 @@ function Navbar() {
     >
       <div className=' w-full lg:w-2/3 mx-auto flex justify-between h-full'>
         <div className='grid place-content-center'>
-          <Image
-            src={
-              theme === 'dark'
-                ? '/logo/reiz_white.gif'
-                : '/logo/reiz_tech_black.gif'
-            }
-            alt='Reiz_tech_logo'
-            height={'100'}
-            width={'200'}
-            className='shrink-0'
-          />
+          <Link href='https://www.reiz.tech/' target={'_blank'}>
+            <Image
+              src={
+                theme === 'dark'
+                  ? '/logo/reiz_white.gif'
+                  : '/logo/reiz_tech_black.gif'
+              }
+              alt='Reiz_tech_logo'
+              height={'100'}
+              width={'200'}
+              className='shrink-0'
+            />
+          </Link>
         </div>
         <div className='h-full w-max grid place-content-center'>
           <h1 className=' sm:text-2xl'>HOMEWORK ASSIGNMENT</h1>
