@@ -42,6 +42,7 @@ export interface COUNTRIES_STATE {
   countries: ARRAY_OF_COUNTRIES;
   filteredCountries: ARRAY_OF_COUNTRIES;
 }
-export interface STORE_STATE {
+export interface REDUX_STORE_STATE {
   countries: COUNTRIES_STATE;
+  theme: 'light' | 'dark';
 }

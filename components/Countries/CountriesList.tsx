@@ -1,44 +1,56 @@
-import React from 'react';
-import { COUNTRY_OBJECT, STORE_STATE } from '@/utils/InterfacesAndTypes';
+import React, { useEffect, useState } from 'react';
+import { COUNTRY_OBJECT, REDUX_STORE_STATE } from '@/utils/InterfacesAndTypes';
 import styles from './Countries.module.scss';
 import { useSelector } from 'react-redux';
+import { withRouter } from 'next/router';
 
-function CountriesList() {
-  const counter = {
-    Asia: 50,
-    Europe: 53,
-    Africa: 60,
-    Oceania: 27,
-    Americas: 57,
-  };
+function CountriesList({ router }: { router: any }) {
+  const [pageState, setPageState] = useState([0, 10]);
 
+  function getDynamicSlice(pageValue: any) {
+    //scrolling to absolute top
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+
+    let startValue = (pageValue - 1) * 10;
+    let endValue = startValue + 10;
+
+    if (startValue && endValue) {
+      return [startValue, endValue];
+    } else {
+      router.push('/?page=1', undefined, { shallow: true });
+      return [0, 10];
+    }
+  }
+
+  useEffect(() => {
+    console.log('useEffect: ', router.query.page);
+    setPageState(getDynamicSlice(router.query.page));
+  }, [router.query.page]);
   //pull current region to decide which array should be.
-  const region = useSelector((state: STORE_STATE) => state?.countries?.region!);
-
-  console.log('Decide: ', region);
+  const region = useSelector(
+    (state: REDUX_STORE_STATE) => state?.countries?.region!
+  );
 
   //If current region is other than 'All' then pull the filteredArray otherwise use pure countries.
   const countries = useSelector(
-    (state: STORE_STATE) => state?.countries?.filteredCountries
+    (state: REDUX_STORE_STATE) => state?.countries?.filteredCountries
   );
 
-  console.log('Selected Countries: ', countries);
-
   const allContries = useSelector(
-    (state: STORE_STATE) => state?.countries?.countries!
+    (state: REDUX_STORE_STATE) => state?.countries?.countries!
   );
 
   const lithuaniaElement = allContries.find(
-    (country) => country.name === 'Lithuania'
+    (country: COUNTRY_OBJECT) => country.name === 'Lithuania'
   );
 
-  type store = {
-    theme: 'light' | 'dark';
-  };
-  const theme = useSelector((state: store) => state?.theme);
+  const theme = useSelector((state: REDUX_STORE_STATE) => state?.theme);
 
   const lithuaniaMode = useSelector(
-    (state: STORE_STATE) => state.countries.lithuaniaMode
+    (state: REDUX_STORE_STATE) => state.countries.lithuaniaMode
   );
 
   //lithuania will be find and store here,
@@ -53,44 +65,43 @@ function CountriesList() {
           : 'animate-[toLight_1s_ease_1]'
       } `}
     >
-      <div className='w-full lg:w-2/3 px-6 lg:mx-auto lg:px-0 flex flex-col gap-5'>
-        {lithuaniaElement && lithuaniaMode && (
-          <div
-            key={lithuaniaElement.alpha2Code}
-            className={styles.Country}
-            style={{
-              backgroundImage: `url(${lithuaniaElement.flag})`,
-              height: '250px',
-              backgroundSize: 'cover',
-              backgroundRepeat: 'no-repeat',
-              backgroundPosition: 'center',
-            }}
-          >
-            <div className={styles.FlagBackground}></div>
+      {lithuaniaElement && lithuaniaMode && (
+        <div
+          key={lithuaniaElement.alpha2Code}
+          className=' lg:w-2/3 mx-6 relative lg:mx-auto lg:px-0'
+          style={{
+            backgroundImage: `url(${lithuaniaElement.flag})`,
+            height: '250px',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'repeat',
+            backgroundPosition: 'center',
+          }}
+        >
+          <div className={styles.FlagBackground}></div>
 
-            <div className={styles.CountrySpecs}>
-              <h1 className='text-2xl md:text-4xl tracking-wider'>
-                {lithuaniaElement.name}
-              </h1>
-              <p className='tracking-wider text-xl'>
-                Capital : {lithuaniaElement.capital}
-              </p>
-              <p className='tracking-wider text-xl'>
-                Region : {lithuaniaElement.region}
-              </p>
-              <p className='tracking-wider text-xl'>
-                AREA : {new Intl.NumberFormat().format(lithuaniaElement.area)}{' '}
-                km
-                <sup className='tracking-wider '>2</sup>
-              </p>
-              <p className='tracking-wider text-xl'>
-                Region :{' '}
-                {new Intl.NumberFormat().format(lithuaniaElement.population)}
-              </p>
-            </div>
+          <div className={styles.CountrySpecs}>
+            <h1 className='text-2xl md:text-4xl tracking-wider text-orange-400'>
+              {lithuaniaElement.name}
+            </h1>
+            <p className='tracking-wider text-xl'>
+              Capital : {lithuaniaElement.capital}
+            </p>
+            <p className='tracking-wider text-xl'>
+              Region : {lithuaniaElement.region}
+            </p>
+            <p className='tracking-wider text-xl'>
+              AREA : {new Intl.NumberFormat().format(lithuaniaElement.area)} km
+              <sup className='tracking-wider '>2</sup>
+            </p>
+            <p className='tracking-wider text-xl'>
+              Region :{' '}
+              {new Intl.NumberFormat().format(lithuaniaElement.population)}
+            </p>
           </div>
-        )}
-        {countries.slice(0, 35).map((country) => {
+        </div>
+      )}
+      <div className='w-full lg:w-2/3 min-h-screen px-6 py-12 lg:mx-auto lg:px-0 grid grid-cols-1 lg:grid-cols-2 gap-4'>
+        {countries.slice(...pageState).map((country: COUNTRY_OBJECT) => {
           return (
             <div
               key={country.alpha2Code}
@@ -131,4 +142,4 @@ function CountriesList() {
   );
 }
 
-export default CountriesList;
+export default withRouter(CountriesList);

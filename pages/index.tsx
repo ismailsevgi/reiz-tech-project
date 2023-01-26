@@ -8,6 +8,8 @@ import CountriesList from '@/components/Countries/CountriesList';
 import { SET_COUNTRIES } from '@/Features/countriesSlice';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
+import Pagination from '@/components/Pagination/Pagination';
+import { useRouter } from 'next/router';
 
 interface Props {
   data: ARRAY_OF_COUNTRIES;
@@ -18,6 +20,21 @@ const Home: React.FC<Props> = ({ data }: Props) => {
   useEffect(() => {
     dispatch(SET_COUNTRIES(data));
   }, []);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    //if there is query alread
+
+    const page = router.query.page;
+
+    if (router.query.page && router.query.page !== '1') {
+      router.push(`?page=${router.query.page}`, undefined, { shallow: true });
+    }
+    // if (!router.query.page) {
+    //   router.redirect(`?page=1`, undefined, { shallow: true });
+    // }
+  }, [router.query.page]);
 
   return (
     <>
@@ -35,12 +52,15 @@ const Home: React.FC<Props> = ({ data }: Props) => {
         />
       </Head>
       <main>
-        {/* Navbar */}
+        {/* NAVBAR */}
         <Navbar />
+        {/* FILTER-BAR */}
         <FilterBar />
-        {/* Filter Bar */}
+        {/* LIST */}
         <CountriesList />
-        {/* Footer */}
+        {/* PAGINATION */}
+        <Pagination />
+        {/* FOOTER */}
       </main>
     </>
   );

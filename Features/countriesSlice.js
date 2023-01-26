@@ -9,11 +9,6 @@ const initialState = {
   filteredCountries: [],
 };
 
-const Lithuania = {
-  name: 'Lithuania',
-  area: 65300,
-};
-
 const countriesSlice = createSlice({
   name: 'countries',
   initialState,
@@ -150,7 +145,6 @@ const countriesSlice = createSlice({
       };
     },
     SET_SEARCH_QUERY: (state, { type, payload }) => {
-      console.log('Gelen Payload! ', payload);
       const searchedCountries = state.countries.filter((country) =>
         country.name.toLowerCase().includes(payload.trim().toLowerCase())
       );

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { COUNTRY_OBJECT, STORE_STATE } from '@/utils/InterfacesAndTypes';
-
+import { COUNTRY_OBJECT, REDUX_STORE_STATE } from '@/utils/InterfacesAndTypes';
+import { withRouter } from 'next/router';
 import {
   SET_SORTING,
   SET_REGION,
@@ -19,40 +19,56 @@ import {
   ALL,
 } from '@/utils/constants';
 
-type Props = {};
+type Props = {
+  router: any;
+};
 
-function FilterBar({}: Props) {
-  type store = {
-    theme: 'light' | 'dark';
-  };
+function FilterBar({ router }: Props) {
   const dispatch = useDispatch();
-  const sorting = useSelector((state: STORE_STATE) => state.countries.sorting);
-  const region = useSelector((state: STORE_STATE) => state.countries.region);
-  const searchQuery = useSelector(
-    (state: STORE_STATE) => state.countries.searchQuery
+
+  const sorting = useSelector(
+    (state: REDUX_STORE_STATE) => state.countries.sorting
   );
+  const region = useSelector(
+    (state: REDUX_STORE_STATE) => state.countries.region
+  );
+  const theme = useSelector((state: REDUX_STORE_STATE) => state?.theme);
   const compare_area = useSelector(
-    (state: STORE_STATE) => state.countries.compare_area
+    (state: REDUX_STORE_STATE) => state.countries.compare_area
   );
   const lithuaniaMode = useSelector(
-    (state: STORE_STATE) => state.countries.lithuaniaMode
+    (state: REDUX_STORE_STATE) => state.countries.lithuaniaMode
   );
 
-  const theme = useSelector((state: store) => state?.theme);
-  console.log('Theme: ', theme);
-  console.log('Current Sorting: ', sorting);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
+
+  // Debouncing function that calls the SET_SEARCH_QUERY action
+  const handleSearch = useCallback(
+    (query: string) => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+      const id = setTimeout(() => {
+        router.push('/?page=1', undefined, { shallow: true });
+        dispatch(SET_SEARCH_QUERY(query));
+      }, 500);
+      setTimeoutId(id);
+    },
+    [timeoutId]
+  );
 
   return (
     <div
-      className={`w-full h-28  ${
+      className={`w-full min-h-max py-6  ${
         theme === 'dark'
           ? 'animate-[toDark_1s_ease_1] '
           : 'animate-[toLight_1s_ease_1]'
       }`}
     >
-      <div className='w-full lg:w-2/3 mx-auto  border-green-500 p-2 h-full flex justify-between items-center flex-wrap'>
-        <div className='flex gap-4'>
-          <div className='flex gap-2 w-min rounded-md'>
+      <div className='w-full lg:w-2/3 mx-auto  border-green-500 px-6 lg:px-0 h-full flex justify-between items-center flex-wrap'>
+        <div className='flex flex-wrap gap-4'>
+          <div className='flex gap-2 w-min rounded-md my-4'>
             <label
               className={`block ${
                 theme === 'dark'
@@ -66,9 +82,10 @@ function FilterBar({}: Props) {
               className='appearance-none bg-green-500 text-white rounded-md h-12 p-2 hover:bg-green-400 cursor-pointer focus:outline-none'
               value={sorting}
               disabled={lithuaniaMode ? true : false}
-              onChange={(e) =>
-                changeSorting(e.target.value, dispatch, SET_SORTING)
-              }
+              onChange={(e) => {
+                router.push('/?page=1', undefined, { shallow: true });
+                changeSorting(e.target.value, dispatch, SET_SORTING);
+              }}
             >
               <option
                 className='bg-green-500 text-white hover:bg-green-400 hover:text-white'
@@ -96,7 +113,7 @@ function FilterBar({}: Props) {
               </option>
             </select>
           </div>
-          <div className='flex gap-2 w-min rounded-md items-center'>
+          <div className='flex gap-2 w-min rounded-md items-center my-4'>
             <label className={`block ${theme === 'dark' && 'text-white'}`}>
               REGION
             </label>
@@ -154,7 +171,7 @@ function FilterBar({}: Props) {
           </div>
         </div>
 
-        <div className='flex gap-4'>
+        <div className='flex gap-4 my-4'>
           <div
             className={
               lithuaniaMode
@@ -164,13 +181,19 @@ function FilterBar({}: Props) {
             onClick={() => {
               dispatch(SET_MODE(!lithuaniaMode));
               if (lithuaniaMode) {
+                router.push('/?page=1', undefined, { shallow: true });
                 changeRegion('All', dispatch, SET_REGION, SET_SORTING, BIGGER);
               } else {
+                router.push('/?page=1', undefined, { shallow: true });
                 changeRegion('All', dispatch, SET_REGION, SET_SORTING, BIGGER);
               }
             }}
           >
-            <img src='https://flagcdn.com/lt.svg' className='h-full w-full' />
+            <img
+              src='https://flagcdn.com/lt.svg'
+              className='h-full w-full'
+              alt='lithuanianFlagMode'
+            />
           </div>
           <div className='flex gap-2 w-min rounded-md'>
             <label
@@ -225,7 +248,10 @@ function FilterBar({}: Props) {
             value={searchQuery}
             placeholder='Enter a country name...'
             className='h-12 pl-2 outline-green-400 text-black'
-            onChange={(e) => dispatch(SET_SEARCH_QUERY(e.target.value))}
+            onChange={(e) => {
+              setSearchQuery(e.target.value);
+              handleSearch(e.target.value);
+            }}
           />
         </div>
       </div>
@@ -233,4 +259,4 @@ function FilterBar({}: Props) {
   );
 }
 
-export default FilterBar;
+export default withRouter(FilterBar);
